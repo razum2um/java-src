@@ -4,13 +4,16 @@
 
 Sometimes you need a *.java class for a clojure app, just a simple class,
 which cannot be generated in clojure (like one for -javaagent) - this will
-help you to get one into the project
+help you to get one into the project.
+
+This library also detects a `MANIFEST.MF` file nearby `*.java` file and uses it
+for the `.jar`
 
 ## Installation
 
 Add to `~/.lein/project.clj`:
 
-    :dependencies [[java-src "0.1.0"]]
+    :dependencies [[java-src "0.1.1"]]
 
 ## Usage
 
