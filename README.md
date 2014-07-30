@@ -36,7 +36,7 @@ Reload project REPL and use them:
 
 ## License
 
-Copyright © 2014 FIXME
+Copyright © 2014 Vlad Bokov
 
 Distributed under the Eclipse Public License either version 1.0 or (at
 your option) any later version.
