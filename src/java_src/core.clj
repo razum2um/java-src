@@ -1,5 +1,5 @@
 (ns java-src.core
-  (:require [clojure.java.shell :refer [sh]]
+  (:require [clojure.java.shell :as shell]
             [clojure.java.io :as io]
             [clojure.string :as s])
   (:gen-class))
@@ -7,6 +7,19 @@
 (def suffix "-java")
 
 ;; helpers
+
+(defn- sh
+  [& args]
+  (let [cmd (apply shell/sh args)
+        err (:err cmd)
+        out (:out cmd)
+        exit (:exit cmd)]
+    (if (and (not (= 0 exit)) (not (s/blank? err)))
+      (do
+        (println "Tried and exited:" exit)
+        (clojure.pprint/pprint args)
+        (throw (Exception. err)))
+      cmd)))
 
 (defn- pwd
   []
@@ -42,11 +55,12 @@
   "Compiles *.java and packs it to a .jar"
   [jar-name files]
   (let [params (if-let [m (find-manifest files)]
-                 (str "cfm " jar-name " " (.getAbsolutePath m))
-                 (str "cf " jar-name))]
-    (sh "jar" params (s/join " " (map get-classname files)))
-    (println "Jar created:" jar-name)
-    (io/file jar-name)))
+                 ["jar" "-cfm" jar-name (.getAbsolutePath m)]
+                 ["jar" "-cf" jar-name])
+        cmd (apply sh (apply conj params (map get-classname files)))
+        jar (io/file jar-name)]
+    (println "Jar created:" (.getName jar))
+    jar))
 
 (defn- install
   [project-dir repo-name jar]
@@ -61,6 +75,7 @@
                 "-DgroupId=local"
                 (str "-DartifactId=" (.getName project-dir) (str suffix))
                 (str "-DlocalRepositoryPath=" (.getAbsolutePath repo)))]
+    (.delete jar)
     (println "Jar installed.")))
 
 (defn- print-instructions
