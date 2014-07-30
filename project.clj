@@ -1,5 +1,5 @@
 (defproject java-src "0.1.0-SNAPSHOT"
-  :description "helps you to bring pure *.java files to your project"
+  :description "Helps you to bring pure *.java files to your project"
   :url "http://github.com/razum2um/java-src"
   :license {:name "Eclipse Public License"
             :url "http://www.eclipse.org/legal/epl-v10.html"}
