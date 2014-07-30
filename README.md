@@ -33,6 +33,10 @@ After that under `PROJECTNAME/repo` directory will appear a Maven repo, add to `
     :repositories {"local" "file:repo"}
     :dependencies [local/PROJECTNAME-java "0.0.1"]
 
+If it's a javaagent class you need this too:
+
+    :java-agents [[local/PROJECTNAME-java "0.0.1"]]
+
 Reload project REPL and use them:
 
     (import [Some Another])
