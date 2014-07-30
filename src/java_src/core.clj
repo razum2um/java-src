@@ -64,8 +64,10 @@
     (println "Jar installed.")))
 
 (defn- print-instructions
-  [project-dir]
-  (println (str "Add :repositories {\"local\" \"file:repo\"} and :dependencies [local/"
+  [project-dir repo-name]
+  (println (str "Add :repositories {\"local\" \"file:"
+                (str repo-name)
+                "\"} and :dependencies [local/"
                 (.getName project-dir)
                 (str suffix)
                 " \"0.0.1\"]")))
@@ -79,7 +81,7 @@
         jar-name (str (.getAbsolutePath project-dir) "/" (.getName project-dir) ".jar")
         jar (jarify jar-name java-files)]
     (install project-dir repo-name jar)
-    (print-instructions project-dir)))
+    (print-instructions project-dir repo-name)))
 
 (defn -main
   [file-names]
