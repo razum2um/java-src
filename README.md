@@ -1,6 +1,6 @@
 # Java Src
 
-[![Clojars Project](http://clojars.org/java-scr/latest-version.svg)](http://clojars.org/java-src)
+[![Clojars Project](http://clojars.org/java-src/latest-version.svg)](http://clojars.org/java-src)
 
 Sometimes you need a *.java class for a clojure app, just a simple class,
 which cannot be generated in clojure (like one for -javaagent) - this will
