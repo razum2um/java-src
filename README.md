@@ -13,7 +13,7 @@ for the `.jar`
 
 Add to `~/.lein/project.clj`:
 
-    :dependencies [[java-src "0.1.1"]]
+    :dependencies [[java-src "RELEASE"]]
 
 ## Usage
 
