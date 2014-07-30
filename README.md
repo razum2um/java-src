@@ -1,32 +1,36 @@
-# java-src
+# Java Src
 
-FIXME: description
+Sometimes you need a *.java class for a clojure app, just a simple class,
+which cannot be generated in clojure (like one for -javaagent) - this will
+help you to get one into the project
 
 ## Installation
 
-Download from http://example.com/FIXME.
+Add to `~/.lein/project.clj`:
+
+    :dependencies [[java-src "0.1.0"]]
 
 ## Usage
 
-FIXME: explanation
+Assume you have `Some.java` and `Another.java` (not packaged classes)
 
-    $ java -jar java-src-0.1.0-standalone.jar [args]
+Either do in the project REPL:
 
-## Options
+    (require '[java-src.core :refer [source-java]])
+    (source-java "path/to/Some.java" "path/to/Another.java")
 
-FIXME: listing of options this app accepts.
+Or use the `java-src-0.1.0-SNAPSHOT-standalone.jar`:
 
-## Examples
+    java -jar java-src-0.1.0-SNAPSHOT-standalone.jar path/to/Some.java path/to/Another.java
 
-...
+After that under `PROJECTNAME/repo` directory will appear a Maven repo, add to `project.clj`:
 
-### Bugs
+    :repositories {"local" "file:repo"}
+    :dependencies [local/PROJECTNAME-java "0.0.1"]
 
-...
+Reload project REPL and use them:
 
-### Any Other Sections
-### That You Think
-### Might be Useful
+    (import [Some Another])
 
 ## License
 
