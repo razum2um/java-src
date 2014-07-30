@@ -51,14 +51,22 @@
   (println "Compiled:" (.getAbsolutePath file))
   file)
 
+(defn- insert-into-jar
+  [jar-name file]
+  (let [base-name (.getName file)
+        dir-name (.getParent file)]
+    (sh "jar" "-uf" jar-name "-C" dir-name base-name)
+    (println "Inserted:" base-name)))
+
 (defn- jarify
   "Compiles *.java and packs it to a .jar"
   [jar-name files]
   (let [params (if-let [m (find-manifest files)]
-                 ["jar" "-cfm" jar-name (.getAbsolutePath m)]
-                 ["jar" "-cf" jar-name])
-        cmd (apply sh (apply conj params (map get-classname files)))
+                 ["-cfm" jar-name (.getAbsolutePath m)]
+                 ["-cf" jar-name])
+        cmd (apply sh (flatten (conj ["jar"] params)))
         jar (io/file jar-name)]
+    (doall (map #(insert-into-jar jar-name %) files))
     (println "Jar created:" (.getName jar))
     jar))
 
