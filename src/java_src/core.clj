@@ -17,7 +17,7 @@
     (if (and (not (= 0 exit)) (not (s/blank? err)))
       (do
         (println "Tried and exited:" exit)
-        (clojure.pprint/pprint args)
+        (println "Launched with args:" args)
         (throw (Exception. err)))
       cmd)))
 
@@ -33,7 +33,7 @@
 (defn- get-classname
   "Strips classname for jar"
   [file]
-  (when-let [[m g] (re-find #"(.*)\.java$" (.getAbsolutePath file))]
+  (when-let [[m g] (re-find #"(.*)\.java$" (.getName file))]
     (str g ".class")))
 
 
@@ -53,7 +53,7 @@
 
 (defn- insert-into-jar
   [jar-name file]
-  (let [base-name (.getName file)
+  (let [base-name (get-classname file)
         dir-name (.getParent file)]
     (sh "jar" "-uf" jar-name "-C" dir-name base-name)
     (println "Inserted:" base-name)))
